@@ -1,0 +1,4 @@
+#!/bin/bash
+source /etc/envvars
+cd /
+./entrypoint.sh mysqld 2>&1
