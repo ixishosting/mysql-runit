@@ -1,6 +1,12 @@
 #!/bin/bash
-# it is not possible to pass environment variables to runit
-# so we just save them in a file which we can source from
-# run scripts.
+
+shutdown() {
+  echo Shutting Down MySQL
+  sv down mysql
+}
+
 export > /etc/envvars
-exec /usr/sbin/runsvdir-start
+/usr/sbin/runsvdir-start&
+RUNSVDIR=$!
+trap shutdown SIGTERM SIGHUP SIGKILL
+wait $RUNSVDIR
